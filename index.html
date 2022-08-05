@@ -35,7 +35,7 @@
 </head>
 <body>
 	
-	<h1>Fahmi Workspace</h1>
+	<h1>Fahmi Workspace 😅</h1>
 	<hr>
 
 	<table>
@@ -57,9 +57,11 @@
 	</div>
 	<br>
 	<br>
-	<h4><i>Cukup share yang bertanda hijau</i></h4>
+	<h4><i>Cukup share yang bertanda <span style="background-color: green; color: white;">hijau</span></i></h4>
+	<p>Hari ini: <span id="today"></span></p>
 	<table class="bordered table" id="data">
 		<thead class='thead'>
+			<th class="bordered">No</th>
 			<th class="bordered">Tanggal</th>
 			<th class="bordered">Jenis Pekerjaan</th>
 			<th class="bordered">Judul</th>
@@ -76,19 +78,22 @@
 		const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 		const tanggal = new Date()
 		var penanggalan = tanggal.getFullYear() + ", " + months[tanggal.getMonth()] + " " + tanggal.getDate();
-
+		var today = tanggal.getFullYear() + "-" + (tanggal.getMonth()+1) + "-" + tanggal.getDate()
+		document.getElementById("tanggal").innerHTML = "Tanggal hari ini: " + penanggalan;
+		document.getElementById("today").innerHTML = today;
 
 		fetch(api_url)
 		.then((response) => response.json())
 		.then((data) => {
 				let tableData = "";
-				data['work'].map((values)=>{
+				data['work'].map((values, index)=>{
 					if(values.ws_work == "Berita Buana" || values.ws_work == "Artikel"){
 						var sharing = `<td class="bordered" style="width: 150px; background-color: green; color: white;">${values.ws_work}</td>`;
 					}else{
 						var sharing = `<td class="bordered">${values.ws_work}</td>`;
 					}
 					tableData += `<tr class="bordered">
+									<td class="bordered" style="width: 40px; text-align: center;">${index+1}</td>
 									<td class="bordered" style="width: 150px;">${values.ws_date.substring(0,10)}</td>
 									${sharing}
 									<td class="bordered" style="width: 500px;">${values.ws_desc}</td>
@@ -104,7 +109,6 @@
 		.catch((err) => console.log(err));
 
 		
-		document.getElementById("tanggal").innerHTML = "Tanggal hari ini: " + penanggalan;
 
 		function currentTime() {
 		  let date = new Date(); 
